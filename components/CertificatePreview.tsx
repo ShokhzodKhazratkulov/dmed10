@@ -26,8 +26,8 @@ const CertificatePreview: React.FC<Props> = ({ certificate, onClose, onUpdate })
           // @ts-ignore
           new QRCode(qrRef.current, {
             text: verifyUrl,
-            width: 170,
-            height: 170,
+            width: 140,
+            height: 140,
             colorDark: "#000000",
             colorLight: "#ffffff",
             correctLevel: 2 
@@ -310,7 +310,7 @@ const CertificatePreview: React.FC<Props> = ({ certificate, onClose, onUpdate })
               <div ref={qrRef} className="bg-white"></div>
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="bg-white p-0.5 border border-slate-100">
-                  <DMEDCross className="w-8 h-8" />
+                  <DMEDCross className="w-6 h-6" />
                 </div>
               </div>
             </div>

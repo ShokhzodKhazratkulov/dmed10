@@ -66,6 +66,10 @@ const CertificateForm: React.FC<Props> = ({ onSubmit }) => {
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Beruvchi muassasa nomi (Block)</label>
             <input type="text" name="tibbiyMuassasaNomi" value={formData.tibbiyMuassasaNomi} onChange={handleChange} className="w-full p-2 border rounded-lg bg-slate-50 outline-none" required />
           </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Yaratish sanasi (Hujjat ID ostida)</label>
+            <input type="text" name="creationDateTime" value={formData.creationDateTime} onChange={handleChange} className="w-full p-2 border rounded-lg bg-slate-50 outline-none" placeholder="19.03.2026 09:59" required />
+          </div>
         </div>
 
         {/* Section 2: Patient Info (Block 1) */}

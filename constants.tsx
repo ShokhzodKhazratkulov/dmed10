@@ -40,10 +40,10 @@ export const DMEDLogo: React.FC<{ className?: string }> = ({ className = "" }) =
 );
 
 export const DEFAULT_CERT_DATA: any = {
-  clinicName: "56 - sonli oilaviy poliklinika",
+  clinicName: "Chilonzor tumani 34 - sonli oilaviy poliklinika",
   registrationDate: "01.02.2026",
   certificateNumber: "01ТШ 007204125",
-  tibbiyMuassasaNomi: "56 - sonli oilaviy poliklinika",
+  tibbiyMuassasaNomi: "Chilonzor tumani 34 - sonli oilaviy poliklinika",
   
   patientFullName: "TAGANOV BEHZOD MARKS O‘G‘LI",
   patientGender: "erkak",
@@ -58,7 +58,7 @@ export const DEFAULT_CERT_DATA: any = {
 
   address: "Toshkent shahri, Mirobod tumani, Саракул 3 в 15",
   workOrStudyPlace: "ТДТрУ",
-  assignedClinic: "Yunusobod tumani 56 - sonli oilaviy poliklinika",
+  assignedClinic: "Chilonzor tumani 34 - sonli oilaviy poliklinika",
   reason: "Kasallik",
   diagnosisInitialCode: "J20.9",
   diagnosisInitialName: "Аниқланмаган ўткир бронхит",
@@ -74,12 +74,11 @@ export const DEFAULT_CERT_DATA: any = {
   tartib: "Ambulator",
   tartibNotes: "-",
   releasedDays: [
-    { start: "25.11.2025", end: "01.12.2025" },
-    { start: "15.11.2025", end: "24.11.2025" },
-    { start: "10.11.2025", end: "14.11.2025" }
+    { start: "25.11.2025", end: "01.12.2025" }
   ],
   temporaryOtherJob: "Yo'q",
   otherCityPermission: "Yo'q",
   certificateInstitutionType: "Oliygoh",
-  certificateInstitutionName: "TDTU"
+  certificateInstitutionName: "TDTU",
+  creationDateTime: "19.03.2026 09:59"
 };

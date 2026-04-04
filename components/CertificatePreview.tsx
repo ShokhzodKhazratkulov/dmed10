@@ -299,6 +299,7 @@ const CertificatePreview: React.FC<Props> = ({ certificate, onClose, onUpdate })
             </p>
             <div className="text-[12px] font-bold space-y-0.5">
               <div>Hujjat ID: <span className="font-normal">{id}</span></div>
+              <div>Yaratish sanasi: <span className="font-normal">{data.creationDateTime}</span></div>
             </div>
           </div>
 

@@ -45,6 +45,7 @@ export interface CertificateData {
   otherCityPermission: string;
   certificateInstitutionType: string;
   certificateInstitutionName: string;
+  creationDateTime: string;
 }
 
 export interface Certificate {

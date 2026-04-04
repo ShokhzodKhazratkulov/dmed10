@@ -14,7 +14,8 @@ import {
   uploadAttachment,
   listAttachments,
   deleteAttachment,
-  updateCertificatePdfUrl
+  updateCertificatePdfUrl,
+  cleanupOldData
 } from './services/storage';
 
 const App: React.FC = () => {
@@ -51,8 +52,14 @@ const App: React.FC = () => {
         setExternalVerifyId(verifyParam);
       }
     }
-    loadHistory();
-    loadAttachments();
+    
+    // Run cleanup and load data
+    const init = async () => {
+      await cleanupOldData();
+      await loadHistory();
+      await loadAttachments();
+    };
+    init();
   }, []);
 
   const loadHistory = async () => {

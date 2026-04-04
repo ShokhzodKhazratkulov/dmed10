@@ -256,6 +256,64 @@ export const deleteCertificate = async (id: string) => {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(existing.filter(c => c.id !== id)));
 };
 
+/**
+ * Automatically cleans up data older than 30 days.
+ * Runs on app initialization.
+ */
+export const cleanupOldData = async () => {
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  const thirtyDaysAgoStr = thirtyDaysAgo.toISOString();
+
+  // 1. Local Storage Cleanup
+  const localCerts = getLocalCertificates();
+  // Note: local certs don't have a reliable 'created_at' in the object itself, 
+  // but we can assume the 'timestamp' field (uz-UZ format) or just skip local cleanup 
+  // if it's too complex. However, we can try to parse the timestamp if possible.
+  // For now, let's focus on Cloud Storage as requested.
+
+  if (!supabase) return;
+
+  try {
+    // 2. Cloud Certificates Cleanup
+    const { data: oldCerts, error: certError } = await supabase
+      .from('certificates')
+      .select('id, pdf_url')
+      .lt('created_at', thirtyDaysAgoStr);
+
+    if (!certError && oldCerts && oldCerts.length > 0) {
+      for (const cert of oldCerts) {
+        if (cert.pdf_url) {
+          const urlParts = cert.pdf_url.split(`${BUCKET_NAME}/`);
+          if (urlParts.length > 1) {
+            await supabase.storage.from(BUCKET_NAME).remove([urlParts[1]]);
+          }
+        }
+        await supabase.from('certificates').delete().eq('id', cert.id);
+      }
+      console.log(`Cleaned up ${oldCerts.length} old certificates.`);
+    }
+
+    // 3. Cloud Attachments Cleanup
+    const { data: oldAttachments, error: attachError } = await supabase
+      .from('attachments')
+      .select('id, file_path')
+      .lt('created_at', thirtyDaysAgoStr);
+
+    if (!attachError && oldAttachments && oldAttachments.length > 0) {
+      const paths = oldAttachments.map(a => a.file_path);
+      const ids = oldAttachments.map(a => a.id);
+      
+      await supabase.storage.from(BUCKET_NAME).remove(paths);
+      await supabase.from('attachments').delete().in('id', ids);
+      
+      console.log(`Cleaned up ${oldAttachments.length} old attachments.`);
+    }
+  } catch (err) {
+    console.error('Auto-cleanup Error:', err);
+  }
+};
+
 const getLocalCertificates = (): Certificate[] => {
   const data = localStorage.getItem(LOCAL_STORAGE_KEY);
   return data ? JSON.parse(data) : [];

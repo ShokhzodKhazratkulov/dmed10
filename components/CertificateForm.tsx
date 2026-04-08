@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { CertificateData, DayOffRange } from '../types';
-import { DEFAULT_CERT_DATA, DMEDLogo } from '../constants';
+import { DEFAULT_CERT_DATA, DMEDLogo, HOSPITALS, DIAGNOSES } from '../constants';
 
 interface Props {
   onSubmit: (data: CertificateData) => void;
@@ -12,7 +12,17 @@ const CertificateForm: React.FC<Props> = ({ onSubmit }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    if (name === 'clinicName') {
+      setFormData(prev => ({ 
+        ...prev, 
+        clinicName: value,
+        tibbiyMuassasaNomi: value,
+        assignedClinic: value
+      }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleDateRangeChange = (index: number, field: keyof DayOffRange, value: string) => {
@@ -52,7 +62,15 @@ const CertificateForm: React.FC<Props> = ({ onSubmit }) => {
           <h3 className="font-bold text-slate-800 border-b pb-2">Hujjat Sarlavhasi</h3>
           <div>
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Poliklinika (Header)</label>
-            <input type="text" name="clinicName" value={formData.clinicName} onChange={handleChange} className="w-full p-2 border rounded-lg bg-slate-50 outline-none" required />
+            <select 
+              name="clinicName" 
+              value={formData.clinicName} 
+              onChange={handleChange} 
+              className="w-full p-2 border rounded-lg bg-slate-50 outline-none" 
+              required
+            >
+              {HOSPITALS.map(h => <option key={h} value={h}>{h}</option>)}
+            </select>
           </div>
           <div>
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Berilgan sana</label>
@@ -106,14 +124,28 @@ const CertificateForm: React.FC<Props> = ({ onSubmit }) => {
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Dastlabki Tashxis (Kodi: Nomi)</label>
             <div className="flex gap-2">
               <input type="text" name="diagnosisInitialCode" placeholder="J20.9" value={formData.diagnosisInitialCode} onChange={handleChange} className="w-20 p-2 border rounded-lg bg-slate-50 outline-none" />
-              <input type="text" name="diagnosisInitialName" placeholder="Nomi" value={formData.diagnosisInitialName} onChange={handleChange} className="flex-1 p-2 border rounded-lg bg-slate-50 outline-none" />
+              <select 
+                name="diagnosisInitialName" 
+                value={formData.diagnosisInitialName} 
+                onChange={handleChange} 
+                className="flex-1 p-2 border rounded-lg bg-slate-50 outline-none"
+              >
+                {DIAGNOSES.map(d => <option key={d} value={d}>{d}</option>)}
+              </select>
             </div>
           </div>
           <div>
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Yakuniy Tashxis (Kodi: Nomi)</label>
             <div className="flex gap-2">
               <input type="text" name="diagnosisFinalCode" placeholder="J20.9" value={formData.diagnosisFinalCode} onChange={handleChange} className="w-20 p-2 border rounded-lg bg-slate-50 outline-none" />
-              <input type="text" name="diagnosisFinalName" placeholder="Nomi" value={formData.diagnosisFinalName} onChange={handleChange} className="flex-1 p-2 border rounded-lg bg-slate-50 outline-none" />
+              <select 
+                name="diagnosisFinalName" 
+                value={formData.diagnosisFinalName} 
+                onChange={handleChange} 
+                className="flex-1 p-2 border rounded-lg bg-slate-50 outline-none"
+              >
+                {DIAGNOSES.map(d => <option key={d} value={d}>{d}</option>)}
+              </select>
             </div>
           </div>
           <div>

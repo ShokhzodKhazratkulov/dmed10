@@ -39,11 +39,29 @@ export const DMEDLogo: React.FC<{ className?: string }> = ({ className = "" }) =
   </div>
 );
 
+export const HOSPITALS = [
+  "Chilonzor tumani markaziy poliklinikasi",
+  "Sirg'ali tumani 11-sonli oilaviy poliklinikasi",
+  "Yangihayot tumani markaziy ko'p tarmoqli poliklinikasi",
+  "Olmazor tumanining markaziy ko'p tarmoqli poliklinikasi",
+  "Mirobod tumani markaziy poliklinikasi",
+  "Mirzo-ulugbek tumani markaziy poliklinikasi"
+];
+
+export const DIAGNOSES = [
+  "Заболевания костей и суставов",
+  "Заболевания зубов и полости рта",
+  "Перелом ноги",
+  "Острый бронхит неуточненный",
+  "Боль в глазах",
+  "Диарея"
+];
+
 export const DEFAULT_CERT_DATA: any = {
-  clinicName: "Chilonzor tumani 34 - sonli oilaviy poliklinika",
+  clinicName: HOSPITALS[0],
   registrationDate: "01.02.2026",
   certificateNumber: "01ТШ 007204125",
-  tibbiyMuassasaNomi: "Chilonzor tumani 34 - sonli oilaviy poliklinika",
+  tibbiyMuassasaNomi: HOSPITALS[0],
   
   patientFullName: "TAGANOV BEHZOD MARKS O‘G‘LI",
   patientGender: "erkak",
@@ -58,14 +76,14 @@ export const DEFAULT_CERT_DATA: any = {
 
   address: "Toshkent shahri, Mirobod tumani, Саракул 3 в 15",
   workOrStudyPlace: "ТДТрУ",
-  assignedClinic: "Chilonzor tumani 34 - sonli oilaviy poliklinika",
+  assignedClinic: HOSPITALS[0],
   reason: "Kasallik",
   diagnosisInitialCode: "J20.9",
-  diagnosisInitialName: "Аниқланмаган ўткир бронхит",
+  diagnosisInitialName: DIAGNOSES[3],
   doctorFullName: "O‘RINOV M.CH.",
   departmentHeadFullName: "RUZIYEVA M.E.",
   diagnosisFinalCode: "J20.9",
-  diagnosisFinalName: "Аниқланмаган ўткир бронхит",
+  diagnosisFinalName: DIAGNOSES[3],
   vmkChairFullName: "MUSIRMANKULOVA X.S.",
   contactInfectious: "Yo'q",
   tiekCheckDate: "-",
@@ -74,7 +92,7 @@ export const DEFAULT_CERT_DATA: any = {
   tartib: "Ambulator",
   tartibNotes: "-",
   releasedDays: [
-    { start: "25.11.2025", end: "01.12.2025" }
+    { start: "02.03.2026", end: "02.04.2026" }
   ],
   temporaryOtherJob: "Yo'q",
   otherCityPermission: "Yo'q",

@@ -55,7 +55,9 @@ const App: React.FC = () => {
     
     // Run cleanup and load data
     const init = async () => {
-      await cleanupOldData();
+      // Run cleanup in background without awaiting to prevent blocking app load
+      cleanupOldData().catch(err => console.error("Cleanup failed", err));
+      
       await loadHistory();
       await loadAttachments();
     };
@@ -85,7 +87,7 @@ const App: React.FC = () => {
     setIsLoading(true);
     try {
       const newCert: Certificate = {
-        id: `${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}`,
+        id: `${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}`,
         timestamp: new Date().toLocaleString('uz-UZ'),
         securityCode: Math.floor(1000 + Math.random() * 9000).toString(),
         data

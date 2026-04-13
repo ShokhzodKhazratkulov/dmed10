@@ -14,6 +14,7 @@ const CertificatePreview: React.FC<Props> = ({ certificate, onClose, onUpdate })
   const qrRef = useRef<HTMLDivElement>(null);
   const printRef = useRef<HTMLDivElement>(null);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [zoom, setZoom] = useState(1.0);
   const { data, id, securityCode, pdfUrl } = certificate;
 
   useEffect(() => {
@@ -123,6 +124,10 @@ const CertificatePreview: React.FC<Props> = ({ certificate, onClose, onUpdate })
     }
   };
 
+  const handleZoomIn = () => setZoom(prev => Math.min(prev + 0.1, 2.0));
+  const handleZoomOut = () => setZoom(prev => Math.max(prev - 0.1, 0.3));
+  const handleResetZoom = () => setZoom(1.0);
+
   // Grid Cell component to match the table structure in the image
   const GridCell = ({ num, children, className = "" }: { num: string, children: React.ReactNode, className?: string }) => (
     <div className={`border-b border-r border-black p-1.5 relative min-h-[60px] flex flex-col ${className}`}>
@@ -135,7 +140,7 @@ const CertificatePreview: React.FC<Props> = ({ certificate, onClose, onUpdate })
 
   return (
     <div className="flex flex-col items-center bg-slate-200 min-h-screen py-4 sm:py-10 no-print font-['Arial']">
-      <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 sticky top-4 z-50 px-4">
+      <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 mb-8 sticky top-4 z-50 px-4 bg-slate-200/80 backdrop-blur-sm py-2 rounded-full shadow-lg">
         <button 
           onClick={handleDownload}
           className="bg-[#0035AD] text-white px-4 sm:px-8 py-2.5 sm:py-3 rounded-full font-black uppercase tracking-widest shadow-2xl hover:bg-blue-800 transition flex items-center gap-2 text-[10px] sm:text-xs"
@@ -143,14 +148,33 @@ const CertificatePreview: React.FC<Props> = ({ certificate, onClose, onUpdate })
           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
           PDF Yuklab Olish
         </button>
+
+        <div className="flex items-center gap-2 bg-white rounded-full px-4 py-1.5 shadow-inner">
+          <button onClick={handleZoomOut} className="p-1.5 hover:bg-slate-100 rounded-full transition" title="Zoom Out">
+            <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" /></svg>
+          </button>
+          <span className="text-xs font-bold text-slate-600 w-12 text-center">{Math.round(zoom * 100)}%</span>
+          <button onClick={handleZoomIn} className="p-1.5 hover:bg-slate-100 rounded-full transition" title="Zoom In">
+            <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
+          </button>
+          <button onClick={handleResetZoom} className="ml-2 text-[10px] font-bold text-blue-600 hover:underline uppercase tracking-tighter" title="Reset Zoom">
+            Reset
+          </button>
+        </div>
       </div>
 
       {/* The A4 Container - Pixel Perfect for the shared image */}
-      <div 
-        ref={printRef}
-        className="bg-white w-[210mm] h-[297mm] p-[10mm] shadow-2xl relative certificate-container text-black overflow-hidden flex flex-col mx-auto"
-        style={{ color: 'black' }}
-      >
+      <div className="w-full overflow-auto flex justify-center pb-20">
+        <div 
+          ref={printRef}
+          className="bg-white w-[210mm] h-[297mm] p-[10mm] shadow-2xl relative certificate-container text-black overflow-hidden flex flex-col"
+          style={{ 
+            color: 'black',
+            transform: `scale(${zoom})`,
+            transformOrigin: 'top center',
+            marginBottom: `${(zoom - 1) * 297}mm` // Adjust margin to prevent overlap when zoomed
+          }}
+        >
         {/* Header Section - Matches Image */}
         <div className="text-center mb-4">
           <div className="grid grid-cols-3 items-start">
@@ -319,6 +343,7 @@ const CertificatePreview: React.FC<Props> = ({ certificate, onClose, onUpdate })
         </div>
       </div>
     </div>
+  </div>
   );
 };
 
